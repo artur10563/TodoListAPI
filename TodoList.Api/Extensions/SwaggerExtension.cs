@@ -11,8 +11,8 @@ namespace JwtAuthTemplate.Api.Extensions
 				options.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Version = "v1",
-					Title = "JwtAuth Template ASP.NET 8",
-					Description = "Template for further use"
+					Title = "TodoList ASP.NET 8",
+					Description = "TodoList Rest API"
 				});
 
 				options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
