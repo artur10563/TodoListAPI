@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using JwtAuthTemplate.Domain.Entities;
-using JwtAuthTemplate.Infrastructure.Data.EntityTypeConfiguration.Shared;
+using TodoList.Domain.Entities;
+using TodoList.Infrastructure.Data.EntityTypeConfiguration.Shared;
 
-namespace JwtAuthTemplate.Infrastructure.Data.EntityTypeConfiguration
+namespace TodoList.Infrastructure.Data.EntityTypeConfiguration
 {
 	internal class UserEntityTypeConfiguration : EntityBaseConfiguration<User>
 	{
@@ -22,6 +22,6 @@ namespace JwtAuthTemplate.Infrastructure.Data.EntityTypeConfiguration
 
 			builder.Property(u => u.PasswordHash)
 				.IsRequired();
-		}//TOOD: ADD DATABASE AND TEST IF BASE ENTITY IS CREATED
+		}
 	}
 }

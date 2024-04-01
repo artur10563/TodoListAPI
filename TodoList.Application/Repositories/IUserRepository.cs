@@ -1,7 +1,7 @@
-﻿using JwtAuthTemplate.Application.DTOs.Auth;
-using JwtAuthTemplate.Domain.Entities;
+﻿using TodoList.Application.DTOs.Auth;
+using TodoList.Domain.Entities;
 
-namespace JwtAuthTemplate.Application.Repositories
+namespace TodoList.Application.Repositories
 {
 	public interface IUserRepository
 	{

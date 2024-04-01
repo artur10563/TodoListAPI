@@ -1,12 +1,12 @@
-﻿using JwtAuthTemplate.Application.Repositories;
-using JwtAuthTemplate.Infrastructure.Data;
-using JwtAuthTemplate.Infrastructure.Data.Repositories;
-using JwtAuthTemplate.Infrastructure.Services;
+﻿using TodoList.Application.Repositories;
+using TodoList.Infrastructure.Data;
+using TodoList.Infrastructure.Data.Repositories;
+using TodoList.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace JwtAuthTemplate.Infrastructure.DependencyInjection
+namespace TodoList.Infrastructure.DependencyInjection
 {
 	public static class StorageContainer
 	{

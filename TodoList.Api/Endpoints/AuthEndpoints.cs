@@ -1,9 +1,9 @@
-﻿using JwtAuthTemplate.Application.DTOs.Auth;
-using JwtAuthTemplate.Application.Repositories;
-using JwtAuthTemplate.Infrastructure.Data;
+﻿using TodoList.Application.DTOs.Auth;
+using TodoList.Application.Repositories;
+using TodoList.Infrastructure.Data;
 using System.ComponentModel.DataAnnotations;
 
-namespace JwtAuthTemplate.Api.Endpoints
+namespace TodoList.Api.Endpoints
 {
 	public static class AuthEndpoints
 	{

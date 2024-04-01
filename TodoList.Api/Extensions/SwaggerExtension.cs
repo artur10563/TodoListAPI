@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace JwtAuthTemplate.Api.Extensions
+namespace TodoList.Api.Extensions
 {
 	public static class SwaggerExtension
 	{

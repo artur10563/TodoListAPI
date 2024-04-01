@@ -1,11 +1,11 @@
-﻿using JwtAuthTemplate.Application.DTOs.Auth;
-using JwtAuthTemplate.Application.Repositories;
-using JwtAuthTemplate.Domain.Entities;
-using JwtAuthTemplate.Infrastructure.Data.Repositories.Shared;
-using JwtAuthTemplate.Infrastructure.Services;
+﻿using TodoList.Application.DTOs.Auth;
+using TodoList.Application.Repositories;
+using TodoList.Domain.Entities;
+using TodoList.Infrastructure.Data.Repositories.Shared;
+using TodoList.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace JwtAuthTemplate.Infrastructure.Data.Repositories
+namespace TodoList.Infrastructure.Data.Repositories
 {
 	public class UserRepository : BaseRepository<User>, IUserRepository
 	{

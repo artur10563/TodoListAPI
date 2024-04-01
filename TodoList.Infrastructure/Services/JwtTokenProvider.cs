@@ -1,11 +1,11 @@
-﻿using JwtAuthTemplate.Domain.Entities;
+﻿using TodoList.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace JwtAuthTemplate.Infrastructure.Services
+namespace TodoList.Infrastructure.Services
 {
 	public class JwtTokenProvider
 	{

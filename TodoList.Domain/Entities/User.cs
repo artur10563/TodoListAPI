@@ -1,6 +1,6 @@
-﻿using JwtAuthTemplate.Domain.Entities.Shared;
+﻿using TodoList.Domain.Entities.Shared;
 
-namespace JwtAuthTemplate.Domain.Entities
+namespace TodoList.Domain.Entities
 {
 	public class User : EntityBase
 	{

@@ -1,4 +1,4 @@
-﻿namespace JwtAuthTemplate.Domain.Entities.Shared
+﻿namespace TodoList.Domain.Entities.Shared
 {
 	public class EntityBase
 	{

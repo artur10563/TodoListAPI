@@ -1,8 +1,8 @@
-﻿using JwtAuthTemplate.Domain.Entities.Shared;
+﻿using TodoList.Domain.Entities.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JwtAuthTemplate.Infrastructure.Data.EntityTypeConfiguration.Shared
+namespace TodoList.Infrastructure.Data.EntityTypeConfiguration.Shared
 {
 	internal abstract class EntityBaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : EntityBase
 	{

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace JwtAuthTemplate.Infrastructure.Migrations
+namespace TodoList.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class User : Migration

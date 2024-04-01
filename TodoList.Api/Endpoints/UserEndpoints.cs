@@ -1,6 +1,6 @@
-﻿using JwtAuthTemplate.Infrastructure.Data;
+﻿using TodoList.Infrastructure.Data;
 
-namespace JwtAuthTemplate.Api.Endpoints
+namespace TodoList.Api.Endpoints
 {
 	public static class UserEndpoints
 	{

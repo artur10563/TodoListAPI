@@ -1,7 +1,7 @@
-﻿using JwtAuthTemplate.Application.Repositories.Shared;
-using JwtAuthTemplate.Domain.Entities.Shared;
+﻿using TodoList.Application.Repositories.Shared;
+using TodoList.Domain.Entities.Shared;
 
-namespace JwtAuthTemplate.Infrastructure.Data.Repositories.Shared
+namespace TodoList.Infrastructure.Data.Repositories.Shared
 {
 	abstract public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
 	{

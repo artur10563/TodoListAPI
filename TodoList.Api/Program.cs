@@ -1,6 +1,6 @@
-using JwtAuthTemplate.Api.Endpoints;
-using JwtAuthTemplate.Api.Extensions;
-using JwtAuthTemplate.Infrastructure.DependencyInjection;
+using TodoList.Api.Endpoints;
+using TodoList.Api.Extensions;
+using TodoList.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);

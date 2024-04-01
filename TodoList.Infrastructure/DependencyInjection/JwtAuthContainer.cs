@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace JwtAuthTemplate.Infrastructure.DependencyInjection
+namespace TodoList.Infrastructure.DependencyInjection
 {
 	public static class JwtAuthContainer
 	{

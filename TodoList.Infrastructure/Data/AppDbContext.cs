@@ -1,7 +1,7 @@
-﻿using JwtAuthTemplate.Domain.Entities;
+﻿using TodoList.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace JwtAuthTemplate.Infrastructure.Data
+namespace TodoList.Infrastructure.Data
 {
 	public class AppDbContext : DbContext
 	{

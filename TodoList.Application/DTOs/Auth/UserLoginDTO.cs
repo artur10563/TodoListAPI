@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace JwtAuthTemplate.Application.DTOs.Auth
+namespace TodoList.Application.DTOs.Auth
 {
 	public class UserLoginDTO
 	{
