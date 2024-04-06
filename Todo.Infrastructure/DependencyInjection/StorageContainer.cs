@@ -1,10 +1,10 @@
 ﻿using Todo.Application.Repositories;
 using Todo.Infrastructure.Data;
-using Todo.Infrastructure.Data.Repositories;
 using Todo.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Todo.Infrastructure.Repositories;
 
 namespace Todo.Infrastructure.DependencyInjection
 {
@@ -18,8 +18,12 @@ namespace Todo.Infrastructure.DependencyInjection
 			serviceCollection.AddDbContext<AppDbContext>(options =>
 				options.UseSqlServer(connectionString));
 
-			serviceCollection.AddScoped<IUserRepository, UserRepository>();
 			serviceCollection.AddSingleton<JwtTokenProvider>();
+			serviceCollection
+				.AddScoped<IUnitOfWork, UnitOfWork>()
+				.AddScoped<IUserRepository, UserRepository>()
+				.AddScoped<ITodoListRepository, TodoListRepository>();
+
 
 			return serviceCollection;
 		}
