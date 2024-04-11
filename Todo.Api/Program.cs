@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Hosting;
 using Todo.Api.Endpoints;
 using Todo.Api.Extensions;
-using Todo.Application.Queries.GetAllTodos;
+using Todo.Application.DependencyInjection;
 using Todo.Infrastructure.DependencyInjection;
 
 
@@ -13,10 +12,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(GetAllTodosQuery).Assembly));
-builder.Services.AddSwaggerWithJwtAuth();
-builder.Services.AddStorage(builder.Configuration);
-builder.Services.AddJwtAuth(builder.Configuration);
+builder.Services.AddStorage(builder.Configuration)
+	.AddApplication()
+	.AddJwtAuth(builder.Configuration)
+	.AddSwaggerWithJwtAuth();
 
 
 var app = builder.Build();
