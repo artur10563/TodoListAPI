@@ -1,29 +1,24 @@
-﻿using Todo.Application.Repositories;
+﻿using FluentValidation;
+using Todo.Application.Extensions;
+using Todo.Application.Repositories;
 using Todo.Domain.Errors;
-
 
 namespace Todo.Application.Commands.CreateTodoList
 {
-	public static class CreateTodoListCommandValidator
+	internal class CreateTodoListCommandValidator : AbstractValidator<CreateTodoListCommand>
 	{
-		public static Error Validate(CreateTodoListCommand request, ITodoListRepository todoListRepository)
+		public CreateTodoListCommandValidator(ITodoListRepository _todoRepository)
 		{
-			var existingList = todoListRepository.FirstOrDefault(list =>
-				list.Title.Equals(request.Title, StringComparison.CurrentCultureIgnoreCase) &&
-				list.OwnerId == request.OwnerId);
+			RuleFor(tl => tl.Title)
+				.Length(3, 50)
+				.WithError(TodoListErrors.InvalidTitleLength);
 
-			if (existingList is not null)
-			{
-				return TodoListErrors.ListAllreadyExists;
-			}
-
-			if (request.Title.Length < 3 || request.Title.Length > 50)
-			{
-				return TodoListErrors.InvalidTitleLength;
-			}
-
-			return Error.None;
+			RuleFor(command => command)
+				.MustAsync(async (command, _) =>
+				{
+					return await _todoRepository.IsTitleUniqueForUser(command.OwnerId, command.Title);
+				})
+				.WithError(TodoListErrors.ListAllreadyExists);
 		}
 	}
-
 }
