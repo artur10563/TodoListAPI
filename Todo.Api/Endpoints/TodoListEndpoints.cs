@@ -2,8 +2,9 @@
 using MediatR;
 using System.Security.Claims;
 using Todo.Application.Commands.CreateTodoList;
-using Todo.Application.DTOs;
+using Todo.Application.DTOs.TodoListDTOs;
 using Todo.Application.Queries.GetAllTodos;
+using Todo.Domain.Primitives;
 
 namespace Todo.Api.Endpoints
 {
@@ -18,11 +19,11 @@ namespace Todo.Api.Endpoints
 		private static async Task<IResult> GetAllTodos(ISender sender)
 		{
 			var query = new GetAllTodosQuery();
-			var response = await sender.Send(query);
+			Result<ICollection<TodoListDTO>> response = await sender.Send(query);
 
 			return response.Value.Count > 0
 				? TypedResults.Ok(response.Value)
-				: TypedResults.NotFound("There are no TodoLists");
+				: TypedResults.NoContent();
 		}
 
 		private static async Task<IResult> CreateTodoList(

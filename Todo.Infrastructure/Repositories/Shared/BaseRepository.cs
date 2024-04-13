@@ -13,23 +13,32 @@ namespace Todo.Infrastructure.Repositories.Shared
 			_context = context;
 		}
 
-		public void Add(TEntity entity)
+		public virtual void Add(TEntity entity)
 		{
 			_context.Set<TEntity>().Add(entity);
 		}
 
 
-		public void AddRange(IEnumerable<TEntity> entities)
+		public virtual void AddRange(IEnumerable<TEntity> entities)
 		{
 			_context.Set<TEntity>().AddRange(entities);
 		}
 
-		public IEnumerable<TEntity> GetAll()
+		/// <summary>
+		/// Retrieves all entities from the database WITHOUT INCLUDES
+		/// </summary>
+		/// <returns>An enumerable collection of TEntity.</returns>
+		public virtual IEnumerable<TEntity> GetAll()
 		{
 			return _context.Set<TEntity>().AsNoTracking();
 		}
 
-		public IEnumerable<TEntity> GetAll(Func<TEntity, bool> predicate)
+		/// <summary>
+		/// Retrieves entities from the database WITHOUT INCLUDES based on the specified predicate
+		/// </summary>
+		/// <param name="predicate">The predicate to filter entities.</param>
+		/// <returns>An enumerable collection of TEntity.</returns>
+		public virtual IEnumerable<TEntity> GetAll(Func<TEntity, bool> predicate)
 		{
 			return _context.Set<TEntity>().Where(predicate).AsQueryable().AsNoTracking();
 		}

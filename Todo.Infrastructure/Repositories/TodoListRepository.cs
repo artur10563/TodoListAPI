@@ -10,6 +10,23 @@ namespace Todo.Infrastructure.Repositories
 	{
 		public TodoListRepository(AppDbContext context) : base(context) { }
 
+		public IEnumerable<TodoList> GetAllWithIncludes()
+		{
+			return _context.TodoLists
+				.Include(list => list.Owner)
+				.Include(list => list.Tasks)
+				.AsNoTracking();
+		}
+
+		public IEnumerable<TodoList> GetAllWithIncludes(Func<TodoList, bool> predicate)
+		{
+			return _context.TodoLists
+				.Include(list => list.Owner)
+				.Include(list => list.Tasks)
+				.AsNoTracking()
+				.Where(predicate);
+		}
+
 		public async Task<bool> IsTitleUniqueForUser(int userId, string title)
 		{
 			return !await _context.TodoLists
