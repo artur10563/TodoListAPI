@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using Todo.Domain.Errors;
 
 namespace Todo.Application.Extensions
@@ -15,5 +16,13 @@ namespace Todo.Application.Extensions
 
 			return ruleBuilder.WithErrorCode(error.Code).WithMessage(error.Description);
 		}
+
+		public static Error AsError(this ValidationFailure? failure)
+		{
+			if (failure is null) return Error.None;
+
+			return new Error(failure.ErrorCode, failure.ErrorMessage);
+		}
 	}
+
 }
