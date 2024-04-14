@@ -8,5 +8,7 @@ namespace Todo.Application.Repositories
 		Task<bool> IsTitleUniqueForUser(int userId, string title);
 		IEnumerable<TodoList> GetAllWithIncludes();
 		IEnumerable<TodoList> GetAllWithIncludes(Func<TodoList, bool> predicate);
+
+		
 	}
 }

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Todo.Application.DTOs.TodoListDTOs;
+using Todo.Application.DTOs.TodoTaskDTOs;
 using Todo.Domain.Entities;
 
 namespace Todo.Application.Mapper
 {
-	public class TodoTaskProfile : Profile
+    public class TodoTaskProfile : Profile
 	{
 		public TodoTaskProfile()
 		{

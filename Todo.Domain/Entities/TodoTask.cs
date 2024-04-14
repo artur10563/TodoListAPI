@@ -9,5 +9,10 @@ namespace Todo.Domain.Entities
 		public TodoTaskStatus Status { get; set; }
 		public int TodoListId { get; set; }
 		public virtual TodoList TodoList { get; set; }
+
+		public TodoTask()
+		{
+			Status = TodoTaskStatus.Todo;
+		}
 	}
 }

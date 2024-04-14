@@ -34,5 +34,11 @@ namespace Todo.Infrastructure.Repositories
 				list.OwnerId == userId &&
 				list.Title.ToLower() == title.ToLower());
 		}
+		public override Task<TodoList?> GetByIdAsync(int id)
+		{
+			return _context.TodoLists
+				.Include(list => list.Tasks)
+				.FirstOrDefaultAsync(list => list.Id == id);
+		}
 	}
 }
