@@ -26,6 +26,7 @@ namespace Todo.Domain.Primitives
 		public static implicit operator Result(Error error) => Result.Failure(error);
 		public static Result<TValue> Success<TValue>(TValue value) => new Result<TValue>(value, true, Error.None);
 		public static Result<TValue> Failure<TValue>(Error error) => new Result<TValue>(default!, false, error);
+
 	}
 
 	public class Result<TValue> : Result
@@ -41,6 +42,8 @@ namespace Todo.Domain.Primitives
 			: throw new InvalidOperationException("The value of a failure result can not be accessed.");
 
 		public static implicit operator Result<TValue>(TValue value) => Success(value);
+		public static implicit operator Result<TValue>(Error error) => Result.Failure<TValue>(error);
+
 	}
 
 }

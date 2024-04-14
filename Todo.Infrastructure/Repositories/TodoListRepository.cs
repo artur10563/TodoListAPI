@@ -38,6 +38,7 @@ namespace Todo.Infrastructure.Repositories
 		{
 			return _context.TodoLists
 				.Include(list => list.Tasks)
+				.Include(list => list.Owner)
 				.FirstOrDefaultAsync(list => list.Id == id);
 		}
 	}
