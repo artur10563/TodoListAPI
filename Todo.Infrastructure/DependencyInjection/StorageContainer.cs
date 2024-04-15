@@ -22,7 +22,8 @@ namespace Todo.Infrastructure.DependencyInjection
 			serviceCollection
 				.AddScoped<IUnitOfWork, UnitOfWork>()
 				.AddScoped<IUserRepository, UserRepository>()
-				.AddScoped<ITodoListRepository, TodoListRepository>();
+				.AddScoped<ITodoListRepository, TodoListRepository>()
+				.AddScoped<ITodoTaskRepository, TodoTaskRepository>();
 
 
 			return serviceCollection;

@@ -1,13 +1,15 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Todo.Api.Extensions;
 using Todo.Application.Commands.CreateTodoList;
 using Todo.Application.Commands.CreateTodoTask;
+using Todo.Application.Commands.UpdateTodoTask;
 using Todo.Application.DTOs.TodoListDTOs;
 using Todo.Application.DTOs.TodoTaskDTOs;
 using Todo.Application.Queries.GetAllTodos;
 using Todo.Application.Queries.GetTodoListById;
-using Todo.Domain.Errors;
+using Todo.Domain.Enums;
 using Todo.Domain.Primitives;
 
 namespace Todo.Api.Endpoints
@@ -23,6 +25,7 @@ namespace Todo.Api.Endpoints
 
 			group.MapGet("/{listId}", GetTodoListById); // full list (owner, tasks)
 			group.MapPost("/{listId}/tasks", CreateTodoTask);
+			group.MapPatch("{listId}/tasks/{taskId}", UpdateTodoTask);
 
 		}
 
@@ -47,11 +50,7 @@ namespace Todo.Api.Endpoints
 
 			if (response.IsFailure)
 			{
-				if (response.Error == TodoListErrors.ListNotFound)
-					return TypedResults.NotFound($"{response.Error.Code}; {response.Error.Description}");
-				if (response.Error == TodoListErrors.UserNotListOwner)
-					return TypedResults.Forbid();
-				return TypedResults.BadRequest($"{response.Error.Code}; {response.Error.Description}");
+				return response.AsTypedErrorResult();
 			}
 			return TypedResults.Ok(response.Value);
 
@@ -67,7 +66,7 @@ namespace Todo.Api.Endpoints
 			var response = await sender.Send(command);
 			if (response.IsFailure)
 			{
-				return TypedResults.BadRequest($"{response.Error.Code}; {response.Error.Description}");
+				return response.AsTypedErrorResult();
 			}
 
 			return TypedResults.Created();
@@ -85,17 +84,30 @@ namespace Todo.Api.Endpoints
 			var response = await sender.Send(command);
 			if (response.IsFailure)
 			{
-				if (response.Error == TodoListErrors.UserNotListOwner)
-					return TypedResults.Forbid();
-
-				if (response.Error == TodoListErrors.ListNotFound)
-					return TypedResults.NotFound($"{response.Error.Code}; {response.Error.Description}");
-				return TypedResults.BadRequest($"{response.Error.Code}; {response.Error.Description}");
+				return response.AsTypedErrorResult();
 			}
-
 
 			return TypedResults.Created();
 		}
 
+		private static async Task<IResult> UpdateTodoTask(
+			ISender sender,
+			ClaimsPrincipal claimsPrincipal,
+			[FromRoute] int listId,
+			[FromRoute] int taskId,
+			[FromBody] TodoTaskStatus status
+			)
+		{
+			var userId = int.Parse(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier)!);
+			var command = new UpdateTodoTaskCommand(status, listId, taskId, userId);
+			var response = await sender.Send(command);
+
+			if (response.IsFailure)
+			{
+				return response.AsTypedErrorResult();
+			}
+
+			return TypedResults.Ok();
+		}
 	}
 }

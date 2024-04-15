@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Todo.Application.Commands.CreateTodoList;
 using Todo.Application.Commands.CreateTodoTask;
+using Todo.Application.Commands.UpdateTodoTask;
 using Todo.Application.Mapper;
 
 namespace Todo.Application.DependencyInjection
@@ -21,6 +22,7 @@ namespace Todo.Application.DependencyInjection
 			services
 				.AddScoped<IValidator<CreateTodoListCommand>, CreateTodoListCommandValidator>()
 				.AddScoped<IValidator<CreateTodoTaskCommand>, CreateTodoTaskCommandValidator>()
+				.AddScoped<IValidator<UpdateTodoTaskCommand>, UpdateTodoTaskCommandValidator>()
 				;
 
 			services

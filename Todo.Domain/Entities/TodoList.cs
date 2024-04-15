@@ -9,5 +9,9 @@ namespace Todo.Domain.Entities
 
 		public virtual User Owner { get; set; }
 		public virtual ICollection<TodoTask> Tasks { get; set; }
+
+
+		public bool IsListOwnedByUser(int userId) => Owner.Id == userId;
+
 	}
 }

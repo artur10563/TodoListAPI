@@ -14,14 +14,14 @@ namespace Todo.Application.Extensions
 				throw new ArgumentNullException(nameof(error), "The error is required");
 			}
 
-			return ruleBuilder.WithErrorCode(error.Code).WithMessage(error.Description);
+			return ruleBuilder.WithErrorCode(error.StatusCode.ToString()).WithMessage(error.Description);
 		}
 
 		public static Error AsError(this ValidationFailure? failure)
 		{
 			if (failure is null) return Error.None;
 
-			return new Error(failure.ErrorCode, failure.ErrorMessage);
+			return new Error(StatusCode.BadRequest, failure.ErrorMessage);
 		}
 	}
 

@@ -14,5 +14,7 @@ namespace Todo.Domain.Entities
 		{
 			Status = TodoTaskStatus.Todo;
 		}
+
+		public bool IsInList(int listId) => TodoListId == listId;
 	}
 }
