@@ -5,7 +5,7 @@ using Todo.Application.Repositories;
 using Todo.Domain.Entities;
 using Todo.Domain.Primitives;
 
-namespace Todo.Application.Commands.CreateTodoList
+namespace Todo.Application.Commands.TodoList.CreateTodoList
 {
 	internal class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListCommand, Result>
 	{
@@ -31,7 +31,7 @@ namespace Todo.Application.Commands.CreateTodoList
 				return validationResult.Errors.FirstOrDefault().AsError();
 			}
 
-			var newList = new TodoList()
+			var newList = new Domain.Entities.TodoList()
 			{
 				Title = request.Title,
 				OwnerId = request.OwnerId,

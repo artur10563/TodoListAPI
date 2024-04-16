@@ -2,14 +2,14 @@
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Todo.Application.Commands.CreateTodoList;
-using Todo.Application.Commands.CreateTodoTask;
-using Todo.Application.Commands.UpdateTodoTask;
+using Todo.Application.Commands.TodoList.CreateTodoList;
+using Todo.Application.Commands.TodoTask.CreateTodoTask;
+using Todo.Application.Commands.TodoTask.UpdateTodoTask;
 using Todo.Application.Mapper;
 
 namespace Todo.Application.DependencyInjection
 {
-	public static class DependencyInjection
+    public static class DependencyInjection
 	{
 		public static IServiceCollection AddApplication(this IServiceCollection services)
 		{

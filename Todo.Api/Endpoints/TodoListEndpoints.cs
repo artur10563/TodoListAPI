@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Todo.Api.Extensions;
-using Todo.Application.Commands.CreateTodoList;
-using Todo.Application.Commands.CreateTodoTask;
-using Todo.Application.Commands.UpdateTodoTask;
+using Todo.Application.Commands.TodoList.CreateTodoList;
+using Todo.Application.Commands.TodoList.DeleteTodoList;
+using Todo.Application.Commands.TodoTask.CreateTodoTask;
+using Todo.Application.Commands.TodoTask.UpdateTodoTask;
 using Todo.Application.DTOs.TodoListDTOs;
 using Todo.Application.DTOs.TodoTaskDTOs;
 using Todo.Application.Queries.GetAllTodos;
@@ -24,6 +25,7 @@ namespace Todo.Api.Endpoints
 			group.MapPost("", CreateTodoList);
 
 			group.MapGet("/{listId}", GetTodoListById); // full list (owner, tasks)
+			group.MapDelete("{listId}", DeleteTodoList);
 			group.MapPost("/{listId}/tasks", CreateTodoTask);
 			group.MapPatch("{listId}/tasks/{taskId}", UpdateTodoTask);
 
@@ -70,6 +72,24 @@ namespace Todo.Api.Endpoints
 			}
 
 			return TypedResults.Created();
+		}
+
+		private static async Task<IResult> DeleteTodoList(
+			ISender sender,
+			ClaimsPrincipal claimsPrincipal,
+			[FromRoute] int listId
+			)
+		{
+			var userId = int.Parse(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier)!);
+			var command = new DeleteTodoListCommand(listId, userId);
+			var response = await sender.Send(command);
+
+			if (response.IsFailure)
+			{
+				return response.AsTypedErrorResult();
+			}
+
+			return TypedResults.Ok();
 		}
 
 		private static async Task<IResult> CreateTodoTask(
