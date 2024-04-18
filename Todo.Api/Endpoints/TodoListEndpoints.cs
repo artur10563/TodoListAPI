@@ -21,20 +21,45 @@ namespace Todo.Api.Endpoints
 		{
 			var group = app.MapGroup("api/lists").RequireAuthorization();
 
-			group.MapGet("", GetAllTodos); // all todos for current user WITHOUT TASKS
+			/// <summary>
+			/// Returns lists of current user (Id, Title, Ammount of tasks)
+			/// </summary>
+			group.MapGet("", GetAllTodos);
+
+			/// <summary>
+			/// Create new todo list
+			/// </summary>
 			group.MapPost("", CreateTodoList);
 
-			group.MapGet("/{listId}", GetTodoListById); // full list (owner, tasks)
+			/// <summary>
+			/// Return list and its tasks. 403 if user is not owner of list
+			/// </summary>
+			group.MapGet("/{listId}", GetTodoListById);
+
+			/// <summary>
+			/// Deletes list and its tasks. 403 if user is not owner of list
+			/// </summary>
 			group.MapDelete("{listId}", DeleteTodoList);
+
+			/// <summary>
+			/// Creates new task. 403 if user is not owner of list
+			/// </summary>
 			group.MapPost("/{listId}/tasks", CreateTodoTask);
+
+			/// <summary>
+			/// Updates new task. 403 if user is not owner of list
+			/// </summary>
 			group.MapPatch("{listId}/tasks/{taskId}", UpdateTodoTask);
 
 		}
 
-		private static async Task<IResult> GetAllTodos(ISender sender)
+		private static async Task<IResult> GetAllTodos(
+			ISender sender,
+			ClaimsPrincipal claimsPrincipal)
 		{
-			var query = new GetAllTodosQuery();
-			Result<ICollection<TodoListDTO>> response = await sender.Send(query);
+			var userId = int.Parse(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier)!);
+			var query = new GetAllTodosQuery(userId);
+			Result<ICollection<TodoListInfoDTO>> response = await sender.Send(query);
 
 			return response.Value.Count > 0
 				? TypedResults.Ok(response.Value)

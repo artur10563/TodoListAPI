@@ -4,5 +4,5 @@ using Todo.Domain.Primitives;
 
 namespace Todo.Application.Queries.GetAllTodos
 {
-	public sealed record GetAllTodosQuery() : IRequest<Result<ICollection<TodoListDTO>>>;
+	public sealed record GetAllTodosQuery(int UserId) : IRequest<Result<ICollection<TodoListInfoDTO>>>;
 }

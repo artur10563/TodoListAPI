@@ -37,7 +37,7 @@ namespace Todo.Application.Commands.TodoTask.CreateTodoTask
                 return TodoListErrors.ListNotFound;
             }
 
-            if (list.IsListOwnedByUser(request.UserId))
+            if (!list.IsListOwnedByUser(request.UserId))
             {
                 return TodoListErrors.UserNotListOwner;
             }

@@ -7,7 +7,7 @@ using Todo.Domain.Primitives;
 
 namespace Todo.Application.Queries.GetAllTodos
 {
-	internal class GetAllTodosQueryHandler : IRequestHandler<GetAllTodosQuery, Result<ICollection<TodoListDTO>>>
+	internal class GetAllTodosQueryHandler : IRequestHandler<GetAllTodosQuery, Result<ICollection<TodoListInfoDTO>>>
 	{
 		private readonly ITodoListRepository _todoRepository;
 		private readonly IMapper _mapper;
@@ -18,12 +18,12 @@ namespace Todo.Application.Queries.GetAllTodos
 			_mapper = mapper;
 		}
 
-		public Task<Result<ICollection<TodoListDTO>>> Handle(GetAllTodosQuery request, CancellationToken cancellationToken)
+		public Task<Result<ICollection<TodoListInfoDTO>>> Handle(GetAllTodosQuery request, CancellationToken cancellationToken)
 		{
-			var lists = _todoRepository.GetAllWithIncludes();
-			var mappedLists = _mapper.Map<List<TodoListDTO>>(lists);
+			var lists = _todoRepository.GetAllWithIncludes(list => list.OwnerId == request.UserId);
+			var mappedLists = _mapper.Map<List<TodoListInfoDTO>>(lists);
 
-			var result = Result.Success<ICollection<TodoListDTO>>(mappedLists);
+			var result = Result.Success<ICollection<TodoListInfoDTO>>(mappedLists);
 			return Task.FromResult(result);
 
 		}
