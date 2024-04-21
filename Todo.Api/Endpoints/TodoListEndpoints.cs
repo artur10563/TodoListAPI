@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Todo.Api.Extensions;
-using Todo.Application.Commands.TodoList.CreateTodoList;
-using Todo.Application.Commands.TodoList.DeleteTodoList;
-using Todo.Application.Commands.TodoTask.CreateTodoTask;
-using Todo.Application.Commands.TodoTask.UpdateTodoTask;
+using Todo.Application.CQ.TodoList.Commands.CreateTodoList;
+using Todo.Application.CQ.TodoList.Commands.DeleteTodoList;
+using Todo.Application.CQ.TodoList.Queries.GetAllTodos;
+using Todo.Application.CQ.TodoList.Queries.GetTodoListById;
+using Todo.Application.CQ.TodoTask.Commands.CreateTodoTask;
+using Todo.Application.CQ.TodoTask.Commands.UpdateTodoTaskStatus;
+using Todo.Application.CQ.TodoTask.Commands.UpdateTodoTaskTitle;
 using Todo.Application.DTOs.TodoListDTOs;
 using Todo.Application.DTOs.TodoTaskDTOs;
-using Todo.Application.Queries.GetAllTodos;
-using Todo.Application.Queries.GetTodoListById;
 using Todo.Domain.Enums;
 using Todo.Domain.Primitives;
 
@@ -17,6 +18,7 @@ namespace Todo.Api.Endpoints
 {
 	public static class TodoListEndpoints
 	{
+		#region Endpoints
 		public static void RegisterTodoListEndpoints(this IEndpointRouteBuilder app)
 		{
 			var group = app.MapGroup("api/lists").RequireAuthorization();
@@ -47,12 +49,17 @@ namespace Todo.Api.Endpoints
 			group.MapPost("/{listId}/tasks", CreateTodoTask);
 
 			/// <summary>
-			/// Updates new task. 403 if user is not owner of list
+			/// Updates status of a task. 403 if user is not owner of list
 			/// </summary>
-			group.MapPatch("{listId}/tasks/{taskId}", UpdateTodoTask);
+			group.MapPatch("{listId}/tasks/{taskId}/status", UpdateTodoTaskStatus);
+			/// <summary>
+			/// Updates title of a task. 403 if user is not owner of list
+			/// </summary>
+			group.MapPatch("{listId}/tasks/{taskId}/title", UpdateTodoTaskTitle);
 
 		}
-
+		#endregion
+		#region Implementations
 		private static async Task<IResult> GetAllTodos(
 			ISender sender,
 			ClaimsPrincipal claimsPrincipal)
@@ -135,7 +142,7 @@ namespace Todo.Api.Endpoints
 			return TypedResults.Created();
 		}
 
-		private static async Task<IResult> UpdateTodoTask(
+		private static async Task<IResult> UpdateTodoTaskStatus(
 			ISender sender,
 			ClaimsPrincipal claimsPrincipal,
 			[FromRoute] int listId,
@@ -144,7 +151,7 @@ namespace Todo.Api.Endpoints
 			)
 		{
 			var userId = int.Parse(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier)!);
-			var command = new UpdateTodoTaskCommand(status, listId, taskId, userId);
+			var command = new UpdateTodoTaskStatusCommand(status, listId, taskId, userId);
 			var response = await sender.Send(command);
 
 			if (response.IsFailure)
@@ -154,5 +161,26 @@ namespace Todo.Api.Endpoints
 
 			return TypedResults.Ok();
 		}
+
+		private static async Task<IResult> UpdateTodoTaskTitle(
+			ISender sender,
+			ClaimsPrincipal claimsPrincipal,
+			[FromRoute] int listId,
+			[FromRoute] int taskId,
+			[FromBody] string title
+			)
+		{
+			var userId = int.Parse(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier)!);
+			var command = new UpdateTodoTaskTitleCommand(title, listId, taskId, userId);
+			var response = await sender.Send(command);
+
+			if (response.IsFailure)
+			{
+				return response.AsTypedErrorResult();
+			}
+
+			return TypedResults.Ok();
+		}
+		#endregion
 	}
 }

@@ -1,6 +1,6 @@
 using Todo.Api.Endpoints;
 using Todo.Api.Extensions;
-using Todo.Application.DependencyInjection;
+using Todo.Application;
 using Todo.Infrastructure.DependencyInjection;
 
 
