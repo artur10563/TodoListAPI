@@ -2,7 +2,7 @@
 using Todo.Application.Extensions;
 using Todo.Domain.Errors;
 
-namespace Todo.Application.Commands.TodoTask.CreateTodoTask
+namespace Todo.Application.CQ.TodoTask.Commands.CreateTodoTask
 {
     internal class CreateTodoTaskCommandValidator : AbstractValidator<CreateTodoTaskCommand>
     {

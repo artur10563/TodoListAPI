@@ -3,7 +3,7 @@ using Todo.Application.Extensions;
 using Todo.Application.Repositories;
 using Todo.Domain.Errors;
 
-namespace Todo.Application.Commands.TodoList.CreateTodoList
+namespace Todo.Application.CQ.TodoList.Commands.CreateTodoList
 {
     internal class CreateTodoListCommandValidator : AbstractValidator<CreateTodoListCommand>
     {

@@ -5,20 +5,20 @@ using Todo.Application.Repositories;
 using Todo.Domain.Errors;
 using Todo.Domain.Primitives;
 
-namespace Todo.Application.Commands.TodoTask.UpdateTodoTask
+namespace Todo.Application.CQ.TodoTask.Commands.UpdateTodoTaskStatus
 {
-    internal class UpdateTodoTaskCommandHandler : IRequestHandler<UpdateTodoTaskCommand, Result>
+    internal class UpdateTodoTaskStatusCommandHandler : IRequestHandler<UpdateTodoTaskStatusCommand, Result>
     {
         public readonly ITodoTaskRepository _todoTaskRepository;
         public readonly IUnitOfWork _uow;
         public readonly ITodoListRepository _todoListRepository;
-        public readonly IValidator<UpdateTodoTaskCommand> _validator;
+        public readonly IValidator<UpdateTodoTaskStatusCommand> _validator;
 
-        public UpdateTodoTaskCommandHandler(
+        public UpdateTodoTaskStatusCommandHandler(
             ITodoTaskRepository todoTaskRepository,
             IUnitOfWork uow,
             ITodoListRepository todoListRepository,
-            IValidator<UpdateTodoTaskCommand> validator)
+            IValidator<UpdateTodoTaskStatusCommand> validator)
         {
             _todoTaskRepository = todoTaskRepository;
             _todoListRepository = todoListRepository;
@@ -26,7 +26,7 @@ namespace Todo.Application.Commands.TodoTask.UpdateTodoTask
             _validator = validator;
         }
 
-        public async Task<Result> Handle(UpdateTodoTaskCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateTodoTaskStatusCommand request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request);
             if (!validationResult.IsValid)
