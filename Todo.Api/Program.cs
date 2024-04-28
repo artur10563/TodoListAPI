@@ -17,6 +17,12 @@ builder.Services.AddStorage(builder.Configuration)
 	.AddJwtAuth(builder.Configuration)
 	.AddSwaggerWithJwtAuth();
 
+builder.Services.AddCors(options=> options.AddPolicy("AngularFrontEnd", policy=>
+{
+	policy.WithOrigins("http://localhost:4200")
+	.AllowAnyMethod()
+	.AllowAnyHeader();
+}));
 
 var app = builder.Build();
 
@@ -31,6 +37,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AngularFrontEnd");
 
 app.RegisterAuthEndpoints();
 app.RegisterUserEndpoints();

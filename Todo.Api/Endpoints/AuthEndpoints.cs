@@ -1,55 +1,47 @@
 ﻿using Todo.Application.DTOs.Auth;
-using Todo.Application.Repositories;
-using Todo.Infrastructure.Data;
-using System.ComponentModel.DataAnnotations;
+using MediatR;
+using Todo.Application.CQ.Auth.Commands.Register;
+using Todo.Api.Extensions;
+using Todo.Application.CQ.Auth.Commands.Login;
 
 namespace Todo.Api.Endpoints
 {
 	public static class AuthEndpoints
 	{
-		//Can be simplified with Carter nu-get package
+
 		public static void RegisterAuthEndpoints(this IEndpointRouteBuilder app)
 		{
 			app.MapPost("api/auth/register", RegisterUserAsync);
-			app.MapPatch("api/auth/login", LoginUserAsync);
+			app.MapPost("api/auth/login", LoginUserAsync);
 		}
 
 		private static async Task<IResult> RegisterUserAsync(
-			UserRegisterDTO registerDTO,
-			IUserRepository _users)
+			ISender sender,
+			UserRegisterDTO registerDTO)
 		{
-			var validationResults = new List<ValidationResult>();
-			var isValid = Validator.TryValidateObject(registerDTO, new ValidationContext(registerDTO), validationResults, true);
-			if (!isValid)
-			{
-				return TypedResults.BadRequest(validationResults);
-			}
 
-			var response = await _users.RegisterAsync(registerDTO);
-			if (response.Status)
+			var command = new RegisterCommand(registerDTO.Nickname, registerDTO.Email, registerDTO.Password);
+			var response = await sender.Send(command);
+
+			if (response.IsFailure)
 			{
-				return TypedResults.Ok(response);
+				return response.AsTypedErrorResult();
 			}
-			return TypedResults.Conflict(response);
+			return TypedResults.Created();
 		}
 
 		private static async Task<IResult> LoginUserAsync(
-			UserLoginDTO loginDTO,
-			IUserRepository _users)
+			ISender sender,
+			UserLoginDTO loginDTO)
 		{
-			var validationResults = new List<ValidationResult>();
-			var isValid = Validator.TryValidateObject(loginDTO, new ValidationContext(loginDTO), validationResults, true);
-			if (!isValid)
-			{
-				return TypedResults.BadRequest(validationResults);
-			}
+			var command = new LoginCommand(loginDTO.Email, loginDTO.Password);
+			var response = await sender.Send(command);
 
-			var response = await _users.LoginAsync(loginDTO);
-			if (response.Status)
+			if (response.IsFailure)
 			{
-				return TypedResults.Ok(response);
+				return response.AsTypedErrorResult();
 			}
-			return TypedResults.Conflict(response);
+			return TypedResults.Ok(response.Value);
 
 		}
 

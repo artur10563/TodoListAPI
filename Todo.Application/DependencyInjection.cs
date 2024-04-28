@@ -7,6 +7,8 @@ using Todo.Application.CQ.TodoTask.Commands.CreateTodoTask;
 using Todo.Application.CQ.TodoTask.Commands.UpdateTodoTaskTitle;
 using Todo.Application.CQ.TodoTask.Commands.UpdateTodoTaskStatus;
 using Todo.Application.Mapper;
+using Todo.Application.CQ.Auth.Commands.Register;
+using Todo.Application.CQ.Auth.Commands.Login;
 
 namespace Todo.Application
 {
@@ -25,6 +27,8 @@ namespace Todo.Application
 				.AddScoped<IValidator<CreateTodoTaskCommand>, CreateTodoTaskCommandValidator>()
 				.AddScoped<IValidator<UpdateTodoTaskStatusCommand>, UpdateTodoTaskStatusCommandValidator>()
 				.AddScoped<IValidator<UpdateTodoTaskTitleCommand>, UpdateTodoTaskTitleCommandValidator>()
+				.AddScoped<IValidator<RegisterCommand>, RegisterCommandValidator>()
+				.AddScoped<IValidator<LoginCommand>, LoginCommandValidator>()
 				;
 
 			services

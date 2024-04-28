@@ -5,6 +5,8 @@ using Todo.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Todo.Infrastructure.Data;
 using Todo.Infrastructure.Repositories.Shared;
+using Todo.Domain.Primitives;
+using Todo.Domain.Errors;
 
 namespace Todo.Infrastructure.Repositories
 {
@@ -17,32 +19,27 @@ namespace Todo.Infrastructure.Repositories
 			_jwtTokenProvider = jwtTokenProvider;
 		}
 
-		public async Task<LoginResponse> LoginAsync(UserLoginDTO userLoginDTO)
+		public async Task<Result<string>> LoginAsync(UserLoginDTO userLoginDTO)
 		{
 			var user = await GetByEmailAsync(userLoginDTO.Email);
 
 			if (user is null)
 			{
-				return new LoginResponse(false, "User with this email is not found");
+				return UserErrors.UserNotFound;
 			}
 
 			var checkPassword = BCrypt.Net.BCrypt.Verify(userLoginDTO.Password, user.PasswordHash);
 			if (checkPassword)
 			{
 				var token = _jwtTokenProvider.Generate(user);
-				return new LoginResponse(true, "Successfully logged in", token);
+				return Result.Success(token);
 			}
 			else
-				return new LoginResponse(false, "Invalid credentials");
+				return new Error(StatusCode.BadRequest, "Invalid password");
 		}
 
-		public async Task<RegistrationResponse> RegisterAsync(UserRegisterDTO userRegisterDTO)
+		public async Task<Result> RegisterAsync(UserRegisterDTO userRegisterDTO)
 		{
-			var user = await GetByEmailAsync(userRegisterDTO.Email);
-			if (user is not null)
-			{
-				return new RegistrationResponse(false, "User allready exists");
-			}
 
 			Add(new User()
 			{
@@ -52,7 +49,7 @@ namespace Todo.Infrastructure.Repositories
 			});
 
 			await _context.SaveChangesAsync();
-			return new RegistrationResponse(true, "Successfully registered");
+			return Result.Success();
 
 		}
 
@@ -62,5 +59,6 @@ namespace Todo.Infrastructure.Repositories
 				.FirstOrDefaultAsync(u =>
 				u.Email.Equals(email.ToLower()));
 		}
+
 	}
 }
