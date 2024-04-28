@@ -21,6 +21,11 @@ namespace Todo.Application.Extensions
 		{
 			if (failure is null) return Error.None;
 
+			if (Enum.TryParse(failure.ErrorCode, out StatusCode statusCode))
+			{
+				return new Error(statusCode, failure.ErrorMessage);
+			}
+
 			return new Error(StatusCode.BadRequest, failure.ErrorMessage);
 		}
 	}
